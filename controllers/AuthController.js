@@ -1,6 +1,7 @@
 import Role from '../models/Role.js'
 import User from '../models/User.js'
 import bcrypt from 'bcryptjs'
+import { validationResult } from 'express-validator'
 
 class AuthController {
 	async register(req, res) {
