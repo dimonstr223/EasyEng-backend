@@ -32,5 +32,15 @@ class CardController {
 			res.status(500).json({ message: 'Card getting error' })
 		}
 	}
+	async update(req, res) {
+		try {
+			const { id } = req.params
+			const card = await Card.findByIdAndUpdate(id, req.body, { new: true })
+			res.json(card)
+		} catch (error) {
+			console.log(error)
+			res.status(500).json({ message: 'Card updating error' })
+		}
+	}
 }
 export default new CardController()
