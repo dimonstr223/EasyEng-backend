@@ -7,6 +7,6 @@ router.post('/cards', CardController.create)
 router.get('/cards', CardController.getAll)
 router.get('/cards/:id', CardController.getOne)
 router.patch('/cards/:id', CardController.update)
-router.delete('/cards/:id')
+router.delete('/cards/:id', CardController.delete)
 
 export default router

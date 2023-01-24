@@ -42,5 +42,15 @@ class CardController {
 			res.status(500).json({ message: 'Card updating error' })
 		}
 	}
+	async delete(req, res) {
+		try {
+			const { id } = req.params
+			await Card.findByIdAndDelete(id)
+			res.json({ success: true })
+		} catch (error) {
+			console.log(error)
+			res.status(500).json({ message: 'Card deleting error' })
+		}
+	}
 }
 export default new CardController()
