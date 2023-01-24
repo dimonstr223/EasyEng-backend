@@ -22,5 +22,15 @@ class CardController {
 			res.status(500).json({ message: 'Cards getting error' })
 		}
 	}
+	async getOne(req, res) {
+		try {
+			const { id } = req.params
+			const card = await Card.findById(id)
+			res.json(card)
+		} catch (error) {
+			console.log(error)
+			res.status(500).json({ message: 'Card getting error' })
+		}
+	}
 }
 export default new CardController()
