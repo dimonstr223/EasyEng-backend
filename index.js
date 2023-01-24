@@ -8,6 +8,7 @@ const DB_URL = `mongodb+srv://user:${PASSWORD}@cluster0.5aimmv3.mongodb.net/?ret
 
 const app = express()
 
+app.use(express.json())
 app.use('/api', router)
 
 const startApp = async () => {
