@@ -1,6 +1,6 @@
 import express, { Router } from 'express'
 import mongoose from 'mongoose'
-import router from './routes/cartRoutes.js'
+import router from './routes/cardRoutes.js'
 
 const PORT = 5555
 const PASSWORD = 'mvf4W3uBuG2k8nd9'
