@@ -10,5 +10,17 @@ class CardController {
 			res.status(500).json({ message: 'Card creating error' })
 		}
 	}
+	async getAll(req, res) {
+		try {
+			const cards = await Card.find()
+			res.json({
+				totalCount: cards.length,
+				cards,
+			})
+		} catch (error) {
+			console.log(error)
+			res.status(500).json({ message: 'Cards getting error' })
+		}
+	}
 }
 export default new CardController()
