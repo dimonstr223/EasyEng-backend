@@ -6,6 +6,10 @@ import { validationResult } from 'express-validator'
 class AuthController {
 	async register(req, res) {
 		try {
+			const errors = validationResult(req)
+			if (!errors.isEmpty()) {
+				return res.status(400).json({ message: 'Registration error', errors })
+			}
 			const { username, password } = req.body
 			const candidate = await User.findOne({ username })
 			if (candidate) {
