@@ -34,6 +34,15 @@ class AuthController {
 	}
 	async login(req, res) {
 		try {
+			const { username, password } = req.body
+			const user = await User.findOne({ username })
+			if (!user) {
+				return res.status(400).json({ message: 'Invalid login or password' })
+			}
+			const isValidPassword = bcrypt.compareSync(password, user.password)
+			if (!isValidPassword) {
+				return res.status(400).json({ message: 'Invalid login or password' })
+			}
 		} catch (error) {}
 	}
 	async getUsers(req, res) {
