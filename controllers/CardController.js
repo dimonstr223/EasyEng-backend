@@ -1,10 +1,10 @@
 import Card from '../models/Card.js'
-import User from '../models/User.js'
 
 class CardController {
 	async create(req, res) {
 		try {
-			const newCard = await Card.create(req.body)
+			const userId = req.user.id
+			const newCard = await Card.create({ ...req.body, user: userId })
 			res.json(newCard)
 		} catch (error) {
 			console.log(error)
@@ -13,7 +13,8 @@ class CardController {
 	}
 	async getAll(req, res) {
 		try {
-			const cards = await Card.find()
+			const userId = req.user.id
+			const cards = await Card.find({ user: userId })
 			res.json({
 				totalCount: cards.length,
 				cards,
