@@ -1,4 +1,5 @@
 import Card from '../models/Card.js'
+import User from '../models/User.js'
 
 class CardController {
 	async create(req, res) {
