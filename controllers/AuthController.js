@@ -1,7 +1,18 @@
+import { validationResult } from 'express-validator'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+
 import Role from '../models/Role.js'
 import User from '../models/User.js'
-import bcrypt from 'bcryptjs'
-import { validationResult } from 'express-validator'
+import config from '../config.js'
+
+const generateAccessToken = (id, roles) => {
+	const payload = {
+		id,
+		roles,
+	}
+	return jwt.sign(payload, config.secret, { expiresIn: '24h' })
+}
 
 class AuthController {
 	async register(req, res) {
@@ -43,7 +54,12 @@ class AuthController {
 			if (!isValidPassword) {
 				return res.status(400).json({ message: 'Invalid login or password' })
 			}
-		} catch (error) {}
+			const token = generateAccessToken(user._id, user.roles)
+			res.json({ token })
+		} catch (error) {
+			console.log(error)
+			res.status(400).json({ message: 'Authorization error' })
+		}
 	}
 	async getUsers(req, res) {
 		try {
