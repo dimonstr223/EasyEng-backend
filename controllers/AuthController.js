@@ -73,6 +73,7 @@ class AuthController {
 				process.env.ACCESS_TOKEN_SECRET,
 				{ expiresIn: '10m' }
 			)
+
 			// Sign a refresh token
 			const refreshToken = await jwt.sign(
 				{ _id: user._id },
@@ -81,11 +82,12 @@ class AuthController {
 			)
 
 			const tokenData = await Token.findOne({ user: user._id })
-
+			// Update refresh token if it already exixts if DB
 			if (tokenData) {
 				tokenData.refreshToken = refreshToken
 				await tokenData.save()
 			}
+			// Create refresh token in DB
 			await Token.create({ user: user._id, refreshToken })
 
 			res.json({ accessToken, refreshToken })
