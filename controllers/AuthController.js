@@ -125,7 +125,7 @@ class AuthController {
 			res.status(403).json({ message: 'Invalid token' })
 		}
 	}
-	async deleteFefreshToken(req, res) {
+	async logOut(req, res) {
 		try {
 			const refreshToken = req.header('x-auth-token')
 
