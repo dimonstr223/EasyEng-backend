@@ -72,8 +72,8 @@ class AuthController {
 	}
 	async getMe(req, res) {
 		try {
-			const { _id } = req.user
-			const user = await User.findById(_id)
+			const { id } = req.user
+			const user = await User.findById(id)
 
 			if (!user) {
 				return res.status(403).json({ message: 'User not found' })
