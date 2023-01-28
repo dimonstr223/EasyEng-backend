@@ -3,9 +3,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 
-import Role from '../models/Role.js'
 import User from '../models/User.js'
-import config from '../config.js'
 
 dotenv.config()
 
@@ -46,15 +44,22 @@ class AuthController {
 			const hashPassword = await bcrypt.hash(password, salt)
 
 			// Save credentials
-			const user = new User({
+			const doc = new User({
 				username,
 				password: hashPassword,
 			})
-			await user.save()
-			res.json({ message: 'Account created!' })
+			const user = await doc.save()
+
+			// Create JWT
+			const accessToken = jwt.sign(
+				{ _id: user._id },
+				process.env.ACCESS_TOKEN_SECRET,
+				{ expiresIn: '10m' }
+			)
+			res.json({ accessToken })
 		} catch (error) {
 			console.log(error)
-			res.status(400).json({ message: 'Registration error' })
+			res.status(400).json({ message: 'Signing up error' })
 		}
 	}
 	async login(req, res) {
