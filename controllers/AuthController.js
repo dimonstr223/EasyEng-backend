@@ -66,7 +66,7 @@ class AuthController {
 				return res.status(400).json({ message: 'Invalid credentials' })
 			}
 
-			// Sign and send JWT
+			// Sign and send JWT access token
 			const accessToken = await jwt.sign(
 				{ _id: user._id },
 				process.env.ACCESS_TOKEN_SECRET,
