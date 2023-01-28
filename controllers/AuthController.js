@@ -125,6 +125,17 @@ class AuthController {
 			res.status(403).json({ message: 'Invalid token' })
 		}
 	}
+	async deleteFefreshToken(req, res) {
+		try {
+			const refreshToken = req.header('x-auth-token')
+
+			await Token.deleteOne({ refreshToken })
+			res.sendStatus(204)
+		} catch (error) {
+			console.log(error)
+			res.status(400).json({ message: 'Token deleting error' })
+		}
+	}
 	async getUsers(req, res) {
 		try {
 			const users = await User.find()
