@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 
 import User from '../models/User.js'
+import Token from '../models/Token.js'
 
 dotenv.config()
 
@@ -72,8 +73,22 @@ class AuthController {
 				process.env.ACCESS_TOKEN_SECRET,
 				{ expiresIn: '10m' }
 			)
+			// Sign a refresh token
+			const refreshToken = await jwt.sign(
+				{ _id: user._id },
+				process.env.REFRESH_TOKEN_SECRET,
+				{ expiresIn: '30d' }
+			)
 
-			res.json({ accessToken })
+			const tokenData = await Token.findOne({ user: user._id })
+
+			if (tokenData) {
+				tokenData.refreshToken = refreshToken
+				await tokenData.save()
+			}
+			await Token.create({ user: user._id, refreshToken })
+
+			res.json({ accessToken, refreshToken })
 		} catch (error) {
 			console.log(error)
 			res.status(401).json({ message: 'Authorization error' })
