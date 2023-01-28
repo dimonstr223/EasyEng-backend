@@ -1,18 +1,19 @@
 import jwt from 'jsonwebtoken'
 
-export default (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
 	if (req.method === 'OPTIONS') next()
 
+	// const token = (req.headers.authorization || '').split(' ')[1]
+	const token = req.header('x-auth-token')
+
+	// Authanticate token
 	try {
-		const token = (req.headers.authorization || '').split(' ')[1]
-		if (!token) {
-			return res.status(403).json({ message: 'User not authorized' })
-		}
-		const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-		req.user = decoded
+		const user = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+		req.userID = user._id
 		next()
 	} catch (error) {
 		console.log(error)
-		return res.status(403).json({ message: 'User not authorized' })
+		return res.status(403).json({ message: 'Invalid tokened' })
 	}
 }
+export default authMiddleware

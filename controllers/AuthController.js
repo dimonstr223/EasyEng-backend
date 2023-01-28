@@ -21,14 +21,7 @@ class AuthController {
 			// If user already exists
 			const candidate = await User.findOne({ username })
 			if (candidate) {
-				return res.status(200).json({
-					errors: [
-						{
-							username: candidate.username,
-							message: 'This username already exists',
-						},
-					],
-				})
+				return res.status(200).json({ message: 'This username already exists' })
 			}
 
 			// Hash password
