@@ -12,6 +12,7 @@ router.post('/signup', signUpValidation, AuthController.signUp)
 router.post('/login', AuthController.login)
 // Create new access token from refresh token
 router.post('/token', AuthController.generateAccessToken)
+router.delete('/delete-token', AuthController.deleteFefreshToken)
 router.get('/users', authMiddleware, AuthController.getUsers)
 router.get('/me', AuthController.getMe)
 
