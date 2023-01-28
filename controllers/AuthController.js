@@ -18,29 +18,41 @@ const generateAccessToken = (id, roles) => {
 }
 
 class AuthController {
-	async register(req, res) {
+	async signUp(req, res) {
 		try {
+			const { username, password } = req.body
+
+			// Validate user input
 			const errors = validationResult(req)
 			if (!errors.isEmpty()) {
-				return res.status(400).json({ message: 'Registration error', errors })
+				return res.status(400).json({ errors: errors.array() })
 			}
-			const { username, password } = req.body
+
+			// If user already exists
 			const candidate = await User.findOne({ username })
 			if (candidate) {
-				return res.status(400).json({ message: 'This username already exists' })
+				return res.status(200).json({
+					errors: [
+						{
+							username: candidate.username,
+							message: 'This username already exists',
+						},
+					],
+				})
 			}
-			const salt = bcrypt.genSaltSync(10)
-			const hashPassword = bcrypt.hashSync(password, salt)
-			const userRole = await Role.findOne({ value: 'USER' })
-			const cards = []
+
+			// Hash password
+			const salt = bcrypt.genSalt(10)
+			const hashPassword = bcrypt.hash(password, salt)
+
+			// Save credentials
 			const user = new User({
 				username,
 				password: hashPassword,
-				roles: [userRole.value],
-				cards,
+				cards: [],
 			})
 			await user.save()
-			res.json({ message: 'Registrationg success!' })
+			res.json({ message: 'Account created!' })
 		} catch (error) {
 			console.log(error)
 			res.status(400).json({ message: 'Registration error' })

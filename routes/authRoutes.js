@@ -6,7 +6,7 @@ import signUpValidation from '../validations/signUpValidation.js'
 
 const router = new Router()
 
-router.post('/signup', signUpValidation, AuthController.register)
+router.post('/signup', signUpValidation, AuthController.signUp)
 router.post('/login', AuthController.login)
 router.get('/users', authMiddleware, AuthController.getUsers)
 router.get('/me', AuthController.getMe)
