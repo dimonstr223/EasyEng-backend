@@ -42,14 +42,13 @@ class AuthController {
 			}
 
 			// Hash password
-			const salt = bcrypt.genSalt(10)
-			const hashPassword = bcrypt.hash(password, salt)
+			const salt = await bcrypt.genSalt(10)
+			const hashPassword = await bcrypt.hash(password, salt)
 
 			// Save credentials
 			const user = new User({
 				username,
 				password: hashPassword,
-				cards: [],
 			})
 			await user.save()
 			res.json({ message: 'Account created!' })
