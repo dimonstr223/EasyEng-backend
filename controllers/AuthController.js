@@ -1,10 +1,13 @@
 import { validationResult } from 'express-validator'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
 
 import Role from '../models/Role.js'
 import User from '../models/User.js'
 import config from '../config.js'
+
+dotenv.config()
 
 const generateAccessToken = (id, roles) => {
 	const payload = {
