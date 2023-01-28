@@ -96,6 +96,35 @@ class AuthController {
 			res.status(401).json({ message: 'Authorization error' })
 		}
 	}
+	async generateAccessToken(req, res) {
+		const refreshToken = req.header('x-auth-token')
+
+		//If token is not provided
+		if (!refreshToken) {
+			return res.status(401).json({ message: 'Token not found' })
+		}
+
+		//If token doesn't exist in DB
+		const tokenData = await Token.findOne({ refreshToken })
+		if (!tokenData) {
+			return res.status(403).json({ message: 'Invalid refresh token' })
+		}
+		try {
+			const user = await jwt.verify(
+				tokenData.refreshToken,
+				process.env.REFRESH_TOKEN_SECRET
+			)
+			const accessToken = await jwt.sign(
+				{ _id: user._id },
+				process.env.ACCESS_TOKEN_SECRET,
+				{ expiresIn: '10m' }
+			)
+			res.json({ accessToken })
+		} catch (error) {
+			console.log(error)
+			res.status(403).json({ message: 'Invalid token' })
+		}
+	}
 	async getUsers(req, res) {
 		try {
 			const users = await User.find()
