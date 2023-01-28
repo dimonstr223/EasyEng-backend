@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken'
-import config from '../config.js'
 
 export default (req, res, next) => {
 	if (req.method === 'OPTIONS') next()
@@ -9,7 +8,7 @@ export default (req, res, next) => {
 		if (!token) {
 			return res.status(403).json({ message: 'User not authorized' })
 		}
-		const decoded = jwt.verify(token, config.secret)
+		const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
 		req.user = decoded
 		next()
 	} catch (error) {
