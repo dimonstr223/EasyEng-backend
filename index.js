@@ -1,5 +1,7 @@
 import express, { Router } from 'express'
 import mongoose from 'mongoose'
+import cors from 'cors'
+
 import cardRouter from './routes/CardRoutes.js'
 import authRouter from './routes/AuthRoutes.js'
 
@@ -10,6 +12,7 @@ const DB_URL = `mongodb+srv://user:${PASSWORD}@cluster0.5aimmv3.mongodb.net/easy
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 app.use('/api', cardRouter)
 app.use('/auth', authRouter)
 

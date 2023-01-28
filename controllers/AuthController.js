@@ -70,6 +70,21 @@ class AuthController {
 			res.status(400).json({ message: 'Users getting error' })
 		}
 	}
+	async getMe(req, res) {
+		try {
+			const { _id } = req.user
+			const user = await User.findById(_id)
+
+			if (!user) {
+				return res.status(403).json({ message: 'User not found' })
+			}
+			const { hashPassword, ...userData } = user._doc
+			res.json(userData)
+		} catch (error) {
+			console.log(error)
+			res.status(400).json({ message: 'Authorization error' })
+		}
+	}
 }
 
 export default new AuthController()
