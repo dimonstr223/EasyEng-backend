@@ -32,7 +32,7 @@ class AuthController {
 			// Save credentials
 			const doc = new User({
 				username,
-				password: hashPassword,
+				passwordHash: hashPassword,
 			})
 			const user = await doc.save()
 
@@ -42,7 +42,8 @@ class AuthController {
 				process.env.ACCESS_TOKEN_SECRET,
 				{ expiresIn: '10m' }
 			)
-			res.json({ accessToken })
+			const { passwordHash, ...userData } = user._doc
+			res.json({ accessToken, userData })
 		} catch (error) {
 			console.log(error)
 			res.status(400).json({ message: 'Signing up error' })
@@ -89,8 +90,8 @@ class AuthController {
 			}
 			// Create refresh token in DB
 			await Token.create({ user: user._id, refreshToken })
-
-			res.json({ accessToken, refreshToken })
+			const { passwordHash, ...userData } = user._doc
+			res.json({ accessToken, refreshToken, userData })
 		} catch (error) {
 			console.log(error)
 			res.status(401).json({ message: 'Authorization error' })
@@ -154,7 +155,7 @@ class AuthController {
 			if (!user) {
 				return res.status(403).json({ message: 'User not found' })
 			}
-			const { password, ...userData } = user._doc
+			const { passwordHash, ...userData } = user._doc
 			res.json(userData)
 		} catch (error) {
 			console.log(error)
