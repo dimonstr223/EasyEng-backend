@@ -13,8 +13,10 @@ class CardController {
 	}
 	async getAll(req, res) {
 		try {
-			const userId = req.user.id
-			const cards = await Card.find({ user: userId })
+			const cards = await Card.find({ user: req.userID })
+			if (!cards) {
+				res.status(401).json({ message: 'Card not found' })
+			}
 			res.json({
 				totalCount: cards.length,
 				cards,
