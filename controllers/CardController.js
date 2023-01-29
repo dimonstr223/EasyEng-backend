@@ -3,8 +3,7 @@ import Card from '../models/Card.js'
 class CardController {
 	async create(req, res) {
 		try {
-			const userId = req.user.id
-			const newCard = await Card.create({ ...req.body, user: userId })
+			const newCard = await Card.create({ ...req.body, user: req.userID })
 			res.json(newCard)
 		} catch (error) {
 			console.log(error)
