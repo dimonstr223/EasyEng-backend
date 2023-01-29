@@ -61,7 +61,7 @@ class AuthController {
 			}
 
 			// Compare hachPassword with user password
-			const isMatch = await bcrypt.compare(password, user.password)
+			const isMatch = await bcrypt.compare(password, user.passwordHash)
 
 			// If passwords not matched
 			if (!isMatch) {
