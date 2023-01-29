@@ -14,6 +14,6 @@ router.delete('/logout', AuthController.logOut)
 // Create new access token from refresh token
 router.post('/token', AuthController.generateAccessToken)
 router.get('/users', authMiddleware, AuthController.getUsers)
-router.get('/me', AuthController.getMe)
+router.get('/me', authMiddleware, AuthController.me)
 
 export default router

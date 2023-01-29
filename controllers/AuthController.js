@@ -147,15 +147,14 @@ class AuthController {
 			res.status(400).json({ message: 'Users getting error' })
 		}
 	}
-	async getMe(req, res) {
+	async me(req, res) {
 		try {
-			const { id } = req.user
-			const user = await User.findById(id)
+			const user = await User.findById(req.userID)
 
 			if (!user) {
 				return res.status(403).json({ message: 'User not found' })
 			}
-			const { hashPassword, ...userData } = user._doc
+			const { password, ...userData } = user._doc
 			res.json(userData)
 		} catch (error) {
 			console.log(error)

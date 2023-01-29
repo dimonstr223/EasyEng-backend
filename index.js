@@ -12,7 +12,12 @@ const DB_URL = `mongodb+srv://user:${PASSWORD}@cluster0.5aimmv3.mongodb.net/easy
 const app = express()
 
 app.use(express.json())
-app.use(cors())
+app.use(
+	cors({
+		credentials: true,
+		origin: process.env.CLIENT_URL,
+	})
+)
 app.use('/api', cardRouter)
 app.use('/auth', authRouter)
 
