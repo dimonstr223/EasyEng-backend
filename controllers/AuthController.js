@@ -97,7 +97,8 @@ class AuthController {
 		}
 	}
 	async generateAccessToken(req, res) {
-		const refreshToken = req.header('x-auth-token')
+		// const refreshToken = req.header('x-auth-token')
+		const refreshToken = (req.headers.authorization || '').split(' ')[1]
 
 		//If token is not provided
 		if (!refreshToken) {
@@ -127,7 +128,8 @@ class AuthController {
 	}
 	async logOut(req, res) {
 		try {
-			const refreshToken = req.header('x-auth-token')
+			// const refreshToken = req.header('x-auth-token')
+			const refreshToken = (req.headers.authorization || '').split(' ')[1]
 
 			await Token.deleteOne({ refreshToken })
 			res.sendStatus(204)

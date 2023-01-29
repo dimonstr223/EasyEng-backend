@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken'
 const authMiddleware = async (req, res, next) => {
 	if (req.method === 'OPTIONS') next()
 
-	// const token = (req.headers.authorization || '').split(' ')[1]
-	const token = req.header('x-auth-token')
+	const token = (req.headers.authorization || '').split(' ')[1]
+	// const token = req.header('x-auth-token')
 
 	// Authanticate token
 	try {
