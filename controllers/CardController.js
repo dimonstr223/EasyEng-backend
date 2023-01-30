@@ -16,9 +16,10 @@ class CardController {
 			if (!cards) {
 				res.status(401).json({ message: 'Card not found' })
 			}
+			const reversedCards = cards.reverse()
 			res.json({
 				totalCount: cards.length,
-				cards,
+				cards: reversedCards,
 			})
 		} catch (error) {
 			console.log(error)
