@@ -4,6 +4,7 @@ import cors from 'cors'
 
 import cardRouter from './routes/CardRoutes.js'
 import authRouter from './routes/AuthRoutes.js'
+import multer from 'multer'
 
 const PORT = 5555
 const PASSWORD = 'mvf4W3uBuG2k8nd9'
@@ -20,6 +21,7 @@ app.use(
 )
 app.use('/api', cardRouter)
 app.use('/auth', authRouter)
+app.use('/images', express.static('images'))
 
 const startApp = async () => {
 	try {

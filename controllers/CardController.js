@@ -55,9 +55,9 @@ class CardController {
 			res.status(500).json({ message: 'Card deleting error' })
 		}
 	}
-	upload(req, res) {
+	uploadImage(req, res) {
 		res.json({
-			url: `multer/uploads/${req.file.filename}`,
+			url: `/images/${req.file.filename}`,
 		})
 	}
 }
