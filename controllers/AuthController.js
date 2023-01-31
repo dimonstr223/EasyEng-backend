@@ -175,7 +175,8 @@ class AuthController {
 			if (!user) {
 				res.status(403).json({ message: 'User not found' })
 			}
-			res.json(user)
+			const { passwordHash, ...userData } = user._doc
+			res.json(userData)
 		} catch (error) {
 			console.log(error)
 			res.status(400).json({ message: 'Updating error' })
