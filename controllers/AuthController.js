@@ -168,6 +168,19 @@ class AuthController {
 			url: `/images/${req.file.filename}`,
 		})
 	}
+	async updateUser(req, res) {
+		try {
+			const { id } = req.params
+			const user = await User.findByIdAndUpdate(id, req.body, { new: true })
+			if (!user) {
+				res.status(403).json({ message: 'User not found' })
+			}
+			res.json(user)
+		} catch (error) {
+			console.log(error)
+			res.status(400).json({ message: 'Updating error' })
+		}
+	}
 }
 
 export default new AuthController()
