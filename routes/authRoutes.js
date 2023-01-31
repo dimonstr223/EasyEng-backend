@@ -11,6 +11,7 @@ const router = new Router()
 router.post('/signup', signUpValidation, AuthController.signUp)
 router.post('/upload', upload.single('avatar'), AuthController.uploadAvatar)
 router.post('/login', AuthController.login)
+router.patch('/users/:id', AuthController.updateUser)
 router.delete('/logout', AuthController.logOut)
 // Create new access token from refresh token
 router.post('/token', AuthController.generateAccessToken)
