@@ -40,7 +40,7 @@ class AuthController {
 			const accessToken = jwt.sign(
 				{ _id: user._id },
 				process.env.ACCESS_TOKEN_SECRET,
-				{ expiresIn: '10m' }
+				{ expiresIn: '10h' }
 			)
 			const { passwordHash, ...userData } = user._doc
 			res.json({ accessToken, userData })
@@ -72,7 +72,7 @@ class AuthController {
 			const accessToken = await jwt.sign(
 				{ _id: user._id },
 				process.env.ACCESS_TOKEN_SECRET,
-				{ expiresIn: '10m' }
+				{ expiresIn: '10h' }
 			)
 
 			// Sign a refresh token
