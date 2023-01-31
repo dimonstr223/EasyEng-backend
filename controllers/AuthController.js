@@ -162,6 +162,11 @@ class AuthController {
 			res.status(400).json({ message: 'Authorization error' })
 		}
 	}
+	uploadAvatar(req, res) {
+		res.json({
+			url: `/images/${req.file.filename}`,
+		})
+	}
 }
 
 export default new AuthController()
