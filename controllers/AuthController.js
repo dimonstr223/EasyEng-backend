@@ -11,7 +11,7 @@ dotenv.config()
 class AuthController {
 	async signUp(req, res) {
 		try {
-			const { username, password } = req.body
+			const { username, password, avatar } = req.body
 
 			// Validate user input
 			const errors = validationResult(req)
@@ -33,6 +33,7 @@ class AuthController {
 			const doc = new User({
 				username,
 				passwordHash: hashPassword,
+				avatar,
 			})
 			const user = await doc.save()
 
