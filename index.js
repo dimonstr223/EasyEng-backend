@@ -1,10 +1,10 @@
-import express, { Router } from 'express'
+import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 
 import cardRouter from './routes/CardRoutes.js'
 import authRouter from './routes/AuthRoutes.js'
-import multer from 'multer'
+import userRouter from './routes/userRoutes.js'
 
 const PORT = 5555
 const PASSWORD = 'mvf4W3uBuG2k8nd9'
@@ -19,9 +19,11 @@ app.use(
 		origin: process.env.CLIENT_URL,
 	})
 )
+app.use('/images', express.static('images'))
+
 app.use('/api', cardRouter)
 app.use('/auth', authRouter)
-app.use('/images', express.static('images'))
+app.use('/', userRouter)
 
 const startApp = async () => {
 	try {

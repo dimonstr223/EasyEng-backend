@@ -16,7 +16,4 @@ router.delete('/logout', AuthController.logOut)
 router.post('/token', AuthController.generateAccessToken)
 router.get('/me', authMiddleware, AuthController.me)
 
-router.get('/users', authMiddleware, AuthController.getUsers)
-router.patch('/users/:id', AuthController.updateUser)
-
 export default router
