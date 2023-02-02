@@ -61,5 +61,21 @@ class CardController {
 			url: `/images/${req.file.filename}`,
 		})
 	}
+	async search(req, res) {
+		try {
+			const { key } = req.params
+			const cards = await Card.find({
+				user: req.userID,
+				$or: [{ word: { $regex: key } }, { translation: { $regex: key } }],
+			})
+			res.json({
+				totalCount: cards.length,
+				cards,
+			})
+		} catch (error) {
+			console.log(error)
+			res.status(500).json({ message: 'Searching error' })
+		}
+	}
 }
 export default new CardController()
