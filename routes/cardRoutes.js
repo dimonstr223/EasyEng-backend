@@ -12,4 +12,6 @@ router.put('/cards/:id', authMiddleware, CardController.update)
 router.delete('/cards/:id', authMiddleware, CardController.delete)
 router.post('/upload', upload.single('image'), CardController.uploadImage)
 
+router.get('/cards/search/:key', CardController.search)
+
 export default router
