@@ -68,9 +68,10 @@ class CardController {
 				user: req.userID,
 				$or: [{ word: { $regex: key } }, { translation: { $regex: key } }],
 			})
+			const reversedCards = cards.reverse()
 			res.json({
 				totalCount: cards.length,
-				cards,
+				cards: reversedCards,
 			})
 		} catch (error) {
 			console.log(error)
