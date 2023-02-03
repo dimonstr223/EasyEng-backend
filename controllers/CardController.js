@@ -1,4 +1,5 @@
 import Card from '../models/Card.js'
+import pagination from '../utils/pagination.js'
 
 class CardController {
 	async create(req, res) {
@@ -12,15 +13,17 @@ class CardController {
 	}
 	async getAll(req, res) {
 		try {
+			const page = Number(req.query.page)
+			const limit = Number(req.query.limit)
+
 			const cards = await Card.find({ user: req.userID })
 			if (!cards) {
 				res.status(401).json({ message: 'Card not found' })
 			}
-			const reversedCards = cards.reverse()
-			res.json({
-				totalCount: cards.length,
-				cards: reversedCards,
-			})
+
+			const result = pagination(cards, page, limit)
+
+			res.json(result)
 		} catch (error) {
 			console.log(error)
 			res.status(500).json({ message: 'Cards getting error' })
@@ -63,16 +66,16 @@ class CardController {
 	}
 	async search(req, res) {
 		try {
+			const page = Number(req.query.page)
+			const limit = Number(req.query.limit)
 			const { key } = req.params
+
 			const cards = await Card.find({
 				user: req.userID,
 				$or: [{ word: { $regex: key } }, { translation: { $regex: key } }],
 			})
-			const reversedCards = cards.reverse()
-			res.json({
-				totalCount: cards.length,
-				cards: reversedCards,
-			})
+			const result = pagination(cards, page, limit)
+			res.json(result)
 		} catch (error) {
 			console.log(error)
 			res.status(500).json({ message: 'Searching error' })
