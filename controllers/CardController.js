@@ -89,7 +89,10 @@ class CardController {
 
 			const cards = await Card.find({
 				user: req.userID,
-				$or: [{ word: { $regex: key } }, { translation: { $regex: key } }],
+				$or: [
+					{ word: { $regex: key, $options: 'i' } },
+					{ translation: { $regex: key, $options: 'i' } },
+				],
 			})
 			const result = pagination(cards, page, limit)
 			res.json(result)
