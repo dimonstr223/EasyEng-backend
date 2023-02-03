@@ -1,10 +1,20 @@
 import Card from '../models/Card.js'
+import capitalize from '../utils/capitalize.js'
 import pagination from '../utils/pagination.js'
 
 class CardController {
 	async create(req, res) {
 		try {
-			const newCard = await Card.create({ ...req.body, user: req.userID })
+			const word = capitalize(req.body.word)
+			const translation = capitalize(req.body.translation)
+
+			const result = {
+				word,
+				translation,
+				imageURL: req.body.imageURL,
+				user: req.userID,
+			}
+			const newCard = await Card.create(result)
 			res.json(newCard)
 		} catch (error) {
 			console.log(error)
@@ -42,7 +52,14 @@ class CardController {
 	async update(req, res) {
 		try {
 			const { id } = req.params
-			const card = await Card.findByIdAndUpdate(id, req.body, { new: true })
+			const word = capitalize(req.body.word)
+			const translation = capitalize(req.body.translation)
+			const result = {
+				word,
+				translation,
+				imageURL: req.body.imageURL,
+			}
+			const card = await Card.findByIdAndUpdate(id, result, { new: true })
 			res.json(card)
 		} catch (error) {
 			console.log(error)
