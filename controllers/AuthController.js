@@ -133,7 +133,7 @@ class AuthController {
 	async logOut(req, res) {
 		try {
 			// const refreshToken = req.header('x-auth-token')
-			const refreshToken = (req.headers.authorization || '').split(' ')[1]
+			const refreshToken = (req.headers.logout || '').split(' ')[1]
 
 			await Token.deleteOne({ refreshToken })
 			res.sendStatus(204)
