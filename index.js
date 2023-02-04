@@ -6,10 +6,6 @@ import cardRouter from './routes/CardRoutes.js'
 import authRouter from './routes/AuthRoutes.js'
 import userRouter from './routes/userRoutes.js'
 
-const PORT = 5555
-const PASSWORD = 'mvf4W3uBuG2k8nd9'
-const DB_URL = `mongodb+srv://user:${PASSWORD}@cluster0.5aimmv3.mongodb.net/easyeng?retryWrites=true&w=majority`
-
 const app = express()
 
 app.use(express.json())
@@ -27,9 +23,11 @@ app.use('/', userRouter)
 
 const startApp = async () => {
 	try {
-		await mongoose.set('strictQuery', false).connect(DB_URL)
+		await mongoose.set('strictQuery', false).connect(process.env.DB_URL)
 		console.log('DB CONNECTED')
-		app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
+		app.listen(process.env.PORT, () =>
+			console.log(`Server is running on port ${process.env.PORT}`)
+		)
 	} catch (error) {
 		console.log(error)
 	}
