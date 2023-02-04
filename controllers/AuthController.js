@@ -41,7 +41,7 @@ class AuthController {
 			const accessToken = jwt.sign(
 				{ _id: user._id },
 				process.env.ACCESS_TOKEN_SECRET,
-				{ expiresIn: '10h' }
+				{ expiresIn: '10m' }
 			)
 			const { passwordHash, ...userData } = user._doc
 			res.json({ accessToken, userData })
@@ -73,7 +73,7 @@ class AuthController {
 			const accessToken = await jwt.sign(
 				{ _id: user._id },
 				process.env.ACCESS_TOKEN_SECRET,
-				{ expiresIn: '10h' }
+				{ expiresIn: '10m' }
 			)
 
 			// Sign a refresh token
@@ -100,15 +100,17 @@ class AuthController {
 	}
 	async generateAccessToken(req, res) {
 		// const refreshToken = req.header('x-auth-token')
-		const refreshToken = (req.headers.authorization || '').split(' ')[1]
+		// const refreshToken = (req.headers.authorization || '').split(' ')[1]
+		const { refreshToken } = req.body
 
 		//If token is not provided
 		if (!refreshToken) {
 			return res.status(401).json({ message: 'Token not found' })
 		}
 
-		//If token doesn't exist in DB
 		const tokenData = await Token.findOne({ refreshToken })
+
+		//If token doesn't exist in DB
 		if (!tokenData) {
 			return res.status(403).json({ message: 'Invalid refresh token' })
 		}
