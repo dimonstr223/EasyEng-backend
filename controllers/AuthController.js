@@ -43,8 +43,15 @@ class AuthController {
 				process.env.ACCESS_TOKEN_SECRET,
 				{ expiresIn: '10m' }
 			)
+			// Sign refreshToken
+			const refreshToken = await jwt.sign(
+				{ _id: user._id },
+				process.env.REFRESH_TOKEN_SECRET,
+				{ expiresIn: '30d' }
+			)
+
 			const { passwordHash, ...userData } = user._doc
-			res.json({ accessToken, userData })
+			res.json({ accessToken, refreshToken, userData })
 		} catch (error) {
 			console.log(error)
 			res.status(400).json({ message: 'Signing up error' })
