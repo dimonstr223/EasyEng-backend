@@ -1,6 +1,6 @@
-import Card from '../models/Card.js'
 import capitalize from '../utils/capitalize.js'
 import pagination from '../utils/pagination.js'
+import Card from './../models/Card.js'
 
 class CardController {
 	async create(req, res) {

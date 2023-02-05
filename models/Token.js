@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
-const TokenSchema = mongoose.Schema({
+const TokenSchema = new mongoose.Schema({
 	user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 	refreshToken: { type: String, required: true },
 })
