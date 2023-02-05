@@ -7,4 +7,4 @@ const CardSchema = new mongoose.Schema({
 	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 })
 
-export default mongoose.model('Card', CardSchema)
+export default mongoose.model('CardModel', CardSchema)

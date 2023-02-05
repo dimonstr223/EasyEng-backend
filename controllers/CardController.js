@@ -1,4 +1,4 @@
-import Card from '../models/CardModel.js'
+import CardModel from '../models/CardModel.js'
 import capitalize from '../utils/capitalize.js'
 import pagination from '../utils/pagination.js'
 
@@ -14,7 +14,7 @@ class CardController {
 				imageURL: req.body.imageURL,
 				user: req.userID,
 			}
-			const newCard = await Card.create(result)
+			const newCard = await CardModel.create(result)
 			res.json(newCard)
 		} catch (error) {
 			console.log(error)
@@ -26,7 +26,7 @@ class CardController {
 			const page = Number(req.query.page) || 1
 			const limit = Number(req.query.limit) || 12
 
-			const cards = await Card.find({ user: req.userID })
+			const cards = await CardModel.find({ user: req.userID })
 			if (!cards) {
 				res.status(401).json({ message: 'Card not found' })
 			}
@@ -42,7 +42,7 @@ class CardController {
 	async getOne(req, res) {
 		try {
 			const { id } = req.params
-			const card = await Card.findById(id)
+			const card = await CardModel.findById(id)
 			res.json(card)
 		} catch (error) {
 			console.log(error)
@@ -59,7 +59,7 @@ class CardController {
 				translation,
 				imageURL: req.body.imageURL,
 			}
-			const card = await Card.findByIdAndUpdate(id, result, { new: true })
+			const card = await CardModel.findByIdAndUpdate(id, result, { new: true })
 			res.json(card)
 		} catch (error) {
 			console.log(error)
@@ -69,7 +69,7 @@ class CardController {
 	async delete(req, res) {
 		try {
 			const { id } = req.params
-			await Card.findByIdAndDelete(id)
+			await CardModel.findByIdAndDelete(id)
 			res.json({ success: true })
 		} catch (error) {
 			console.log(error)
@@ -87,7 +87,7 @@ class CardController {
 			const limit = Number(req.query.limit) || 12
 			const { key } = req.params
 
-			const cards = await Card.find({
+			const cards = await CardModel.find({
 				user: req.userID,
 				$or: [
 					{ word: { $regex: key, $options: 'i' } },
