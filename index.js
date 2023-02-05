@@ -34,15 +34,6 @@ app.use('/api', cardRouter)
 app.use('/auth', authRouter)
 app.use('/', userRouter)
 
-// const startApp = async () => {
-// 	try {
-// 		app.listen(port || 5555, () =>
-// 			console.log(`Server is running on port ${process.env.PORT}`)
-// 		)
-// 	} catch (error) {
-// 		console.log(error)
-// 	}
-// }
 connectDB().then(() => {
 	app.listen(port, () => console.log('listening'))
 })
