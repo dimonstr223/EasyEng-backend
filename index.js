@@ -10,6 +10,17 @@ const app = express()
 
 const port = process.env.PORT || 5555
 
+mongoose.set('strictQuery', false)
+const connectDB = async () => {
+	try {
+		const conn = await mongoose.connect(process.env.DB_URL)
+		console.log('DB CONNECTED')
+	} catch (error) {
+		console.log(error)
+		process.exit(1)
+	}
+}
+
 app.use(express.json())
 app.use(
 	cors({
@@ -23,15 +34,15 @@ app.use('/api', cardRouter)
 app.use('/auth', authRouter)
 app.use('/', userRouter)
 
-const startApp = async () => {
-	try {
-		await mongoose.set('strictQuery', false).connect(process.env.DB_URL)
-		console.log('DB CONNECTED')
-		app.listen(port || 5555, () =>
-			console.log(`Server is running on port ${process.env.PORT}`)
-		)
-	} catch (error) {
-		console.log(error)
-	}
-}
-startApp()
+// const startApp = async () => {
+// 	try {
+// 		app.listen(port || 5555, () =>
+// 			console.log(`Server is running on port ${process.env.PORT}`)
+// 		)
+// 	} catch (error) {
+// 		console.log(error)
+// 	}
+// }
+connectDB().then(() => {
+	app.listen(port, () => console.log('listening'))
+})
