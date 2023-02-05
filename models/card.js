@@ -1,6 +1,6 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
-const CardSchema = new mongoose.Schema({
+const CardSchema = mongoose.Schema({
 	word: { type: String, required: true },
 	translation: { type: String, required: true },
 	user: {
