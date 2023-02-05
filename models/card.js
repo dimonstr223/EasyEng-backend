@@ -1,4 +1,5 @@
-import mongoose, { Schema } from 'mongoose'
+import { Schema } from 'mongoose'
+import mongoose from 'mongoose'
 
 const CardSchema = mongoose.Schema({
 	word: { type: String, required: true },
