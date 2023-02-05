@@ -1,4 +1,4 @@
-import Card from '../models/Card.js'
+import Card from '../models/CardModel.js'
 import capitalize from '../utils/capitalize.js'
 import pagination from '../utils/pagination.js'
 
