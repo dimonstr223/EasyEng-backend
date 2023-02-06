@@ -78,8 +78,8 @@ class CardController {
 	}
 	async uploadImage(req, res) {
 		try {
-			const { image } = req.files
-			const result = await cloudinary(image.tempFilePath)
+			const { image } = req.body
+			const result = await cloudinary(image)
 			res.json({
 				url: result,
 			})
