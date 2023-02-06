@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 
 import User from '../models/User.js'
 import Token from '../models/Token.js'
+import cloudinary from '../utils/cloudinary.js'
 
 dotenv.config()
 
@@ -163,10 +164,17 @@ class AuthController {
 			res.status(400).json({ message: 'Authorization error' })
 		}
 	}
-	uploadAvatar(req, res) {
-		res.json({
-			url: `/images/${req.file.filename}`,
-		})
+	async uploadAvatar(req, res) {
+		try {
+			const { avatar } = req.body
+			const result = await cloudinary(avatar)
+			res.json({
+				url: result,
+			})
+		} catch (error) {
+			console.log(error)
+			res.status(500).json({ message: 'Uploading error' })
+		}
 	}
 }
 
