@@ -2,7 +2,6 @@ import { Router } from 'express'
 
 import AuthController from '../controllers/AuthController.js'
 import authMiddleware from '../middlewares/authMiddleware.js'
-import upload from '../multer/multer.js'
 import signUpValidation from '../validations/signUpValidation.js'
 
 const router = new Router()

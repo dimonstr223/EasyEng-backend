@@ -1,5 +1,4 @@
 import express from 'express'
-import fileUpload from 'express-fileupload'
 import mongoose from 'mongoose'
 import cors from 'cors'
 
@@ -29,8 +28,6 @@ app.use(
 		origin: process.env.CLIENT_URL,
 	})
 )
-app.use('/images', express.static('images'))
-app.use(fileUpload({ useTempFiles: true }))
 app.use('/api', cardRouter)
 app.use('/auth', authRouter)
 app.use('/', userRouter)

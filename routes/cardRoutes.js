@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import CardController from '../controllers/CardController.js'
 import authMiddleware from '../middlewares/authMiddleware.js'
-import upload from '../multer/multer.js'
 
 const router = new Router()
 
