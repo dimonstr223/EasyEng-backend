@@ -1,13 +1,13 @@
 import CardModel from '../models/CardModel.js'
 import capitalize from '../utils/capitalize.js'
 import pagination from '../utils/pagination.js'
+import cloudinary from '../utils/cloudinary.js'
 
 class CardController {
 	async create(req, res) {
 		try {
 			const word = capitalize(req.body.word)
 			const translation = capitalize(req.body.translation)
-
 			const result = {
 				word,
 				translation,
@@ -76,10 +76,19 @@ class CardController {
 			res.status(500).json({ message: 'Card deleting error' })
 		}
 	}
-	uploadImage(req, res) {
-		res.json({
-			url: `/images/${req.file.filename}`,
-		})
+	async uploadImage(req, res) {
+		try {
+			const { image } = req.files
+			const result = await cloudinary(image.tempFilePath)
+			res.json({
+				url: result,
+			})
+		} catch (error) {
+			console.log(error)
+			res.status(400).json({
+				message: 'Uploading error',
+			})
+		}
 	}
 	async search(req, res) {
 		try {
